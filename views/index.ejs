@@ -1,0 +1,88 @@
+<head>
+ 
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/css/style.css"/>
+
+</head>
+<script>
+
+var Datas = {
+    "안녕": "안녕하세요",
+    "하이":"하이요",
+    "고객":"01012341234로 연락해주세요",
+    "상대방":"상대방에게 통화하는법",
+    "자리비움":"자리비움상태 ",
+    "머저리": "욕하시면 저도 화가나요"
+}
+
+function data(reqValue){
+  // keyArr : Datas의 Json 형식의 값중 key값을 모은 배열
+  var keyArr = Object.keys(Datas); 
+  var key = "";
+  var respMsg = "";
+  // boot이 응답하기 위한 key 값 검색
+  for (var i = 0; i < keyArr.length; i++) {
+    if (reqValue.indexOf(keyArr[i]) != -1) {
+      key = keyArr[i];
+      break;
+    }
+  }
+
+// key값을 통해 응답할 메세지를 선택
+  if(Datas[key] != undefined){
+    respMsg = Datas[key];
+  }else{
+    respMsg = "죄송합니다 알아듣지 못했어요"
+  }
+  return respMsg;
+}
+
+function sendMessage() {
+  if (window.event.keyCode == 13) {
+  var message = document.getElementById('inputMsg').value
+
+  // 내가 전송할 메시지 클라이언트에게 표시
+  var chatArea = document.getElementById('chatArea')
+  var msgBlock = document.createElement('div')
+  var node = document.createTextNode(message)
+  msgBlock.classList.add('userMsg')
+  msgBlock.appendChild(node)
+  chatArea.appendChild(msgBlock)
+  respMsgByBot(message);
+  }
+
+  
+}
+function respMsgByBot(message){
+  // var message = document.getElementById('test').value
+  var reqVal = data(message);
+  
+
+  var chatArea = document.getElementById('chatArea')
+  var msgBlock = document.createElement('div')
+  var node = document.createTextNode(reqVal)
+  msgBlock.classList.add('botMsg')
+  msgBlock.appendChild(node)
+  chatArea.appendChild(msgBlock)
+  // 가져왔으니 데이터 빈칸으로 변경
+  document.getElementById('inputMsg').value = ''
+}
+</script>
+<body>
+    
+  <div class="wrapper">
+
+      <body>
+          <div id="main">
+            <div id="chatArea">
+              <!-- 채팅 메시지 영역 -->
+            </div>
+            <div>
+              <input onkeyup="sendMessage();" type="text" id="inputMsg" style="text-align:center; height: 40px; width:350px;" placeholder="메시지를 입력해주세요..">
+            </div>
+          </div>
+        </body>
+
+
+  </div>
+</body>
